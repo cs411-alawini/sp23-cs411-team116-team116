@@ -13,5 +13,10 @@
 | Member 3 | |
 
 #1 Project Information
+| Info | Description |
+| ----------- | ----------- |
+| Title | |
+| System URL | |
+| Video Link | |
 
 #1 Project Summary
