@@ -1,4 +1,4 @@
-#1 Basic Information
+## Basic Information
 | Info | Description |
 | ----------- | ----------- |
 | TeamID | 116 |
@@ -12,11 +12,11 @@
 | Member 3 | |
 | Member 3 | |
 
-#1 Project Information
+## Project Information
 | Info | Description |
 | ----------- | ----------- |
 | Title | |
 | System URL | |
 | Video Link | |
 
-#1 Project Summary
+## Project Summary
