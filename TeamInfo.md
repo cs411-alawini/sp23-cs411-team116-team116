@@ -15,7 +15,7 @@
 ## Project Information
 | Info | Description |
 | ----------- | ----------- |
-| Title | |
+| Title | Los Angeles Crime Map |
 | System URL | |
 | Video Link | |
 
