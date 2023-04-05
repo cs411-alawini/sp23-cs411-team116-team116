@@ -1,8 +1,6 @@
 import './App.css';
 import React, {useState, useEffect} from "react";
 import Axios from 'axios';
-<<<<<<< HEAD
-=======
 
 // React example
 // function App() {
@@ -35,7 +33,6 @@ import Axios from 'axios';
 //     </div>
 //   );
 // }
->>>>>>> f06312dab1e2e364415fa45f39056c783b9efc2c
 
 function App() {
   return (
