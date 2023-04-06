@@ -57,8 +57,9 @@ app.post("/api/insert", (require, response) => {
 });
 
 app.get("/api/get", (require, response) => {
-    const sqlSelect = "SELECT * FROM Status";
+    const sqlSelect = "SELECT * FROM Status LIMIT 1000";
     db.query(sqlSelect, (err, result) => {
+        console.log(result);
         response.send(result);
     });
 });
@@ -68,7 +69,7 @@ app.delete("/api/delete/:DR_NO", (require, response) => {
     const DR_NO = require.params.DR_NO;
 
     const sqlDelete = "DELETE FROM `Status` WHERE `DR_NO`=?;";
-    console.log('deleted');
+    console.log(DR_NO);
     db.query(sqlDelete, DR_NO, (err, result) => {
         if(err)
         console.log(err);
@@ -76,12 +77,14 @@ app.delete("/api/delete/:DR_NO", (require, response) => {
 });
 
 app.put("/api/update/", (require, response) => {
-    const Status = require.body.Status;
+    // const Status = require.body.Status;
     const Status_Desc = require.body.Status_Desc;
     const DR_NO = require.body.DR_NO;
 
-    const sqlUpdate = "UPDATE `Status` SET `Status_Desc` = ? WHERE `DR_NO` = ?";
-    db.quire(sqlUpdate, [Status,Status_Desc,DR_NO], (err,result) => {
+    console.log(Status_Desc, DR_NO);
+
+    const sqlUpdate = "UPDATE `Status` SET `Status Desc` = ? WHERE `DR_NO` = ?";
+    db.query(sqlUpdate, [Status_Desc,DR_NO], (err,result) => {
         if(err)
         console.log(err);
     })

@@ -39,10 +39,11 @@ function App() {
   const [Status_Desc, setStatusDesc] = useState('');
   const [DR_NO, setDRNO] = useState(0);
   const [statusList, setStatusList] = useState([]);
-  const [newStatus, setNewStatus] = useState("");
+  const [newStatusDesc, setNewStatusDesc] = useState("");
 
   useEffect(() => {
     Axios.get('http://localhost:3002/api/get').then((response) => {
+      // console.log(response.data);
       setStatusList(response.data)
     })
   }, [])
@@ -60,23 +61,23 @@ function App() {
       statusList,
       {
         Status: Status,
-        Status_Desc: Status_Desc,
+        Status_Desc: 'Status Desc',
         DR_NO: DR_NO
       },
     ]);
   };
 
-  const deleteStatus = (Status) => {
-    Axios.delete('http://localhost:3002/api/delete/${DR_NO}');
+  const deleteStatus = (DR_NO) => {
+    const baseUrl = 'http://localhost:3002/api/delete/'
+    Axios.delete(`${baseUrl}${DR_NO}`);
   };
 
-  const updateStatus = (Status) => {
+  const updateStatus = (DR_NO) => {
     Axios.put('http://localhost:3002/api/update', {
-      Status: newStatus,
-      Status_Desc: Status_Desc,
+      Status_Desc: newStatusDesc,
       DR_NO: DR_NO
     });
-    setNewStatus("")
+    setNewStatusDesc("")
   }
 
   return (
@@ -106,10 +107,10 @@ function App() {
               <p>Status Description: {val.Status_Desc}</p>
               <button onClick={() => {deleteStatus(val.DR_NO)}}>DELETE</button>
               <input type="text" id="updateInput" onChange={(e) => {
-                setNewStatus(e.target.value)
+                setNewStatusDesc(e.target.value)
               }} />
               <button onClick={() => {
-                updateStatus(val.Status)
+                updateStatus(val.DR_NO)
               }}>UPDATE</button>
             </div>
           );
