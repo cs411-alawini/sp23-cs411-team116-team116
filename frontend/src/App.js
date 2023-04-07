@@ -129,7 +129,7 @@ function App() {
         }} />
         <button onClick={() => {
           search();
-        }}>Search</button>
+        }}>Search by Status</button>
       </div>
         {statusList.map((val) => {
         return (
