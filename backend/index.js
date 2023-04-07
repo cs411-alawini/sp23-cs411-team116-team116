@@ -59,8 +59,14 @@ app.post("/api/insert", (require, response) => {
 app.get("/api/get", (require, response) => {
     const sqlSelect = "SELECT * FROM Status LIMIT 1000";
     db.query(sqlSelect, (err, result) => {
-        console.log(result);
-        response.send(result);
+        console.log(result[0]['Status Desc']);
+        const newList = result.map(row=> ({
+            Status: row.Status,
+            Status_Desc: row['Status Desc'],
+            DR_NO: row.DR_NO
+        }))
+        console.log(newList)
+        response.send(newList);
     });
 });
 

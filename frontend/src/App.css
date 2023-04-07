@@ -15,7 +15,7 @@ input {
 .card {
     align-items: center;
     width:500px;
-    height:190px;
+    height:250px;
     border:2px solid pink;
     border-radius: 15px;
     margin: 10px;

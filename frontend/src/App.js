@@ -57,19 +57,19 @@ function App() {
       alert('success insert')
     })
 
-    setStatusList([
-      statusList,
-      {
-        Status: Status,
-        Status_Desc: 'Status Desc',
-        DR_NO: DR_NO
-      },
-    ]);
+    Axios.get('http://localhost:3002/api/get').then((response) => {
+      // console.log(response.data);
+      setStatusList(response.data)
+    })
   };
 
   const deleteStatus = (DR_NO) => {
     const baseUrl = 'http://localhost:3002/api/delete/'
     Axios.delete(`${baseUrl}${DR_NO}`);
+    Axios.get('http://localhost:3002/api/get').then((response) => {
+      // console.log(response.data);
+      setStatusList(response.data)
+    })
   };
 
   const updateStatus = (DR_NO) => {
@@ -78,6 +78,10 @@ function App() {
       DR_NO: DR_NO
     });
     setNewStatusDesc("")
+    Axios.get('http://localhost:3002/api/get').then((response) => {
+      // console.log(response.data);
+      setStatusList(response.data)
+    })
   }
 
   return (
@@ -105,6 +109,7 @@ function App() {
             <div className = "card">
               <h1>Status:{val.Status}</h1>
               <p>Status Description: {val.Status_Desc}</p>
+              <p>DR NO: {val.DR_NO}</p>
               <button onClick={() => {deleteStatus(val.DR_NO)}}>DELETE</button>
               <input type="text" id="updateInput" onChange={(e) => {
                 setNewStatusDesc(e.target.value)
