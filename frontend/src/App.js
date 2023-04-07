@@ -35,7 +35,7 @@ import Axios from 'axios';
 // }
 
 function App() {
-  const backendAddress = "localhost:3002"
+  const backendAddress = "http://localhost:3002"
   // states under statusList
   const [Status, setStatus] = useState('');
   const [Status_Desc, setStatusDesc] = useState('');
@@ -54,11 +54,15 @@ function App() {
   console.log('Hello');
   console.log(backendAddress + '/api/get');
   const refreshList = () => {
-    Axios.get(backendAddress + '/api/get/list0', { params: { _cache: Date.now() }})
-    .then((response) => {
-      console.log('Sending request to backend server...');
-      setStatusList(response.data);
-    })
+    console.log("start refresh")
+    setTimeout(() => {
+      Axios.get(backendAddress + '/api/get/list0').then((response) => {
+        console.log(response.data);
+        setStatusList(response.data)
+      });
+    }, 500);
+    
+    console.log("finish refresh")
   };
 
   const getAreaVictimList = () => {
@@ -77,8 +81,13 @@ function App() {
     })
   };
   useEffect(() => {
-    refreshList();
+    Axios.get(backendAddress + '/api/get/list0', { params: { _cache: Date.now() }})
+    .then((response) => {
+      console.log('Sending request to backend server...');
+      setStatusList(response.data);
+    })
   }, [])
+
 
   const insertStatus = () => {
     Axios.post(backendAddress + '/api/insert', {
@@ -87,16 +96,17 @@ function App() {
       DR_NO: DR_NO
     }).then(() => {
       alert('success insert')
-      refreshList(); // Call refreshList after the request has completed
-    });
+    })
+    refreshList();
   };
 
   const deleteStatus = (DR_NO) => {
     const baseUrl = backendAddress + '/api/delete/'
     Axios.delete(`${baseUrl}${DR_NO}`).then(() => {
       alert('success delete')
-      refreshList(); // Call refreshList after the request has completed
+      
     });
+    refreshList();
   };
 
   const updateStatus = (DR_NO) => {
@@ -105,10 +115,9 @@ function App() {
       DR_NO: DR_NO
     }).then(() => {
       alert('success update')
-      refreshList(); // Call refreshList after the request has completed
       setNewStatusDesc("");
     });
-    
+    refreshList();
   }
 
   const search = () => {
