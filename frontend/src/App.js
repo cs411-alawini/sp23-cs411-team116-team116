@@ -36,19 +36,41 @@ import Axios from 'axios';
 
 function App() {
   const backendAddress = "https://whhuang4-cautious-goggles-4499vqp7pwvfqr4x-3002.preview.app.github.dev"
+  // states under statusList
   const [Status, setStatus] = useState('');
   const [Status_Desc, setStatusDesc] = useState('');
   const [DR_NO, setDRNO] = useState(0);
-  const [statusList, setStatusList] = useState([]);
   const [newStatusDesc, setNewStatusDesc] = useState("");
+  // lists states
+  const [statusList, setStatusList] = useState([]);
+  const [victimByAreaList, setvictimByAreaList] = useState([]);
+  const [victimByWeaponList, setvictimByWeaponList] = useState([]);
+  // to determine frontend (different list)
+  const [listState, setListState] = useState(0);
 
   console.log('Hello');
   console.log(backendAddress + '/api/get');
   const refreshList = () => {
-    Axios.get(backendAddress + '/api/get', { params: { _cache: Date.now() }})
+    Axios.get(backendAddress + '/api/get/list0', { params: { _cache: Date.now() }})
     .then((response) => {
       console.log('Sending request to backend server...');
       setStatusList(response.data);
+    })
+  };
+
+  const getAreaVictimList = () => {
+    Axios.get(backendAddress + '/api/get/list1', { params: { _cache: Date.now() }})
+    .then((response) => {
+      console.log('Sending request to backend server...');
+      setvictimByAreaList(response.data);
+    })
+  };
+
+  const getWeaponVictimList = () => {
+    Axios.get(backendAddress + '/api/get/list2', { params: { _cache: Date.now() }})
+    .then((response) => {
+      console.log('Sending request to backend server...');
+      setvictimByWeaponList(response.data);
     })
   };
   useEffect(() => {
@@ -85,7 +107,48 @@ function App() {
     });
     
   }
-
+  let renderJSXＬist; 
+  if(listState===0){
+    renderJSXＬist = statusList.map((val) => {
+      return (
+        <div className = "card">
+          <h1>Status:{val.Status}</h1>
+          <p>Status Description: {val.Status_Desc}</p>
+          <p>DR NO: {val.DR_NO}</p>
+          <button onClick={() => {deleteStatus(val.DR_NO)}}>DELETE</button>
+          <input type="text" id="updateInput" onChange={(e) => {
+            setNewStatusDesc(e.target.value)
+          }} />
+          <button onClick={() => {
+            updateStatus(val.DR_NO)
+          }}>UPDATE</button>
+        </div>
+      );
+    });
+  }
+  else if(listState===1){
+    //victimByAreaList
+    console.log()
+    renderJSXＬist = victimByAreaList.map((val) => {
+      return (
+        <div className = "card">
+          <h1>Area: {val.Area}</h1>
+          <p>Victim Count: {val.Victim_Count}</p>
+        </div>
+      );
+    });
+  }
+  else if(listState===2){
+    //victimByAreaList
+    renderJSXＬist = victimByWeaponList.map((val) => {
+      return (
+        <div className = "card">
+          <h1>Weapon: {val.Weapon}</h1>
+          <p>Victim Count: {val.Victim_Count}</p>
+        </div>
+      );
+    });
+  }
   return (
     <div className="App">
       <h1>Crimes Map</h1>
@@ -105,24 +168,22 @@ function App() {
         }}/>
 
         <button onClick={insertStatus}>INSERT</button>
-
-        {statusList.map((val) => {
-          return (
-            <div className = "card">
-              <h1>Status:{val.Status}</h1>
-              <p>Status Description: {val.Status_Desc}</p>
-              <p>DR NO: {val.DR_NO}</p>
-              <button onClick={() => {deleteStatus(val.DR_NO)}}>DELETE</button>
-              <input type="text" id="updateInput" onChange={(e) => {
-                setNewStatusDesc(e.target.value)
-              }} />
-              <button onClick={() => {
-                updateStatus(val.DR_NO)
-              }}>UPDATE</button>
-            </div>
-          );
-          ;
-        })}
+        <br/>
+        <div>
+          <button onClick={() => {
+            setListState(0);
+            refreshList();
+          }}>Status</button>
+          <button onClick={() => {
+            setListState(1);
+            getAreaVictimList();
+          }}>Victim Count by same Area</button>
+          <button onClick={() => {
+            setListState(2);
+            getWeaponVictimList();
+          }}>Victim Count by same Weapon</button>
+        </div>
+        <div>{renderJSXＬist}</div>
 
       </div>
 
