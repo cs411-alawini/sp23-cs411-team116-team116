@@ -95,6 +95,19 @@ app.get("/api/get/list2", (require, response) => {
     });
 });
 
+app.get("/api/search/by/status/:searchInput", (require, response) => {
+    const searchInput = require.params.searchInput;
+    const sqlSelect = "SELECT * FROM Status s WHERE s.Status= ? LIMIT 1000";
+    console.log("search");
+    db.query(sqlSelect, [searchInput], (err, result) => {
+        console.log(result);
+        // console.log(newList)
+        response.send(result);
+        if(err)
+            console.log(err);
+    });
+});
+
 
 app.delete("/api/delete/:DR_NO", (require, response) => {
     // const Status = require.params.Status;
