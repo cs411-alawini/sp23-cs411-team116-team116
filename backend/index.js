@@ -56,7 +56,7 @@ app.post("/api/insert", (require, response) => {
     })
 });
 
-app.get("/api/get", (require, response) => {
+app.get("/api/get/list0", (require, response) => {
     const sqlSelect = "SELECT * FROM Status LIMIT 1000";
     console.log("get");
     db.query(sqlSelect, (err, result) => {
@@ -70,6 +70,31 @@ app.get("/api/get", (require, response) => {
         response.send(newList);
     });
 });
+
+app.get("/api/get/list1", (require, response) => {
+    const sqlSelect = "SELECT `Area Name` AS Area, COUNT(v.DR_NO) AS Victim_Count FROM Areas a JOIN Victims v ON a.DR_NO=v.DR_NO GROUP BY `Area Name`";
+    console.log("get1");
+    db.query(sqlSelect, (err, result) => {
+        console.log(result);
+        // console.log(newList)
+        response.send(result);
+        if(err)
+            console.log(err);
+    });
+});
+
+app.get("/api/get/list2", (require, response) => {
+    const sqlSelect = "SELECT `Weapon Desc` AS Weapon, COUNT(v.DR_NO) AS Victim_Count FROM Weapons w JOIN Victims v ON w.DR_NO=v.DR_NO GROUP BY `Weapon Desc`";
+    console.log("get2");
+    db.query(sqlSelect, (err, result) => {
+        console.log(result);
+        // console.log(newList)
+        response.send(result);
+        if(err)
+            console.log(err);
+    });
+});
+
 
 app.delete("/api/delete/:DR_NO", (require, response) => {
     // const Status = require.params.Status;
