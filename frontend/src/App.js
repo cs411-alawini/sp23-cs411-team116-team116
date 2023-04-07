@@ -35,58 +35,60 @@ import Axios from 'axios';
 // }
 
 function App() {
+  const backendAddress = "https://whhuang4-cautious-goggles-4499vqp7pwvfqr4x-3002.preview.app.github.dev"
   const [Status, setStatus] = useState('');
   const [Status_Desc, setStatusDesc] = useState('');
   const [DR_NO, setDRNO] = useState(0);
   const [statusList, setStatusList] = useState([]);
   const [newStatusDesc, setNewStatusDesc] = useState("");
 
-  useEffect(() => {
-    Axios.get('http://localhost:3002/api/get').then((response) => {
-      // console.log(response.data);
-      setStatusList(response.data)
+  console.log('Hello');
+  console.log(backendAddress + '/api/get');
+  const refreshList = () => {
+    Axios.get(backendAddress + '/api/get', { params: { _cache: Date.now() }})
+    .then((response) => {
+      console.log('Sending request to backend server...');
+      setStatusList(response.data);
     })
+  };
+  useEffect(() => {
+    refreshList();
   }, [])
 
   const insertStatus = () => {
-    Axios.post('http://localhost:3002/api/insert', {
+    Axios.post(backendAddress + '/api/insert', {
       Status: Status,
       Status_Desc: Status_Desc,
       DR_NO: DR_NO
     }).then(() => {
       alert('success insert')
-    })
-
-    Axios.get('http://localhost:3002/api/get').then((response) => {
-      // console.log(response.data);
-      setStatusList(response.data)
-    })
+      refreshList(); // Call refreshList after the request has completed
+    });
   };
 
   const deleteStatus = (DR_NO) => {
-    const baseUrl = 'http://localhost:3002/api/delete/'
-    Axios.delete(`${baseUrl}${DR_NO}`);
-    Axios.get('http://localhost:3002/api/get').then((response) => {
-      // console.log(response.data);
-      setStatusList(response.data)
-    })
+    const baseUrl = backendAddress + '/api/delete/'
+    Axios.delete(`${baseUrl}${DR_NO}`).then(() => {
+      alert('success delete')
+      refreshList(); // Call refreshList after the request has completed
+    });
   };
 
   const updateStatus = (DR_NO) => {
-    Axios.put('http://localhost:3002/api/update', {
+    Axios.put(backendAddress + '/api/update', {
       Status_Desc: newStatusDesc,
       DR_NO: DR_NO
+    }).then(() => {
+      alert('success update')
+      refreshList(); // Call refreshList after the request has completed
+      setNewStatusDesc("");
     });
-    setNewStatusDesc("")
-    Axios.get('http://localhost:3002/api/get').then((response) => {
-      // console.log(response.data);
-      setStatusList(response.data)
-    })
+    
   }
 
   return (
     <div className="App">
-      <h1>Hello World!</h1>
+      <h1>Crimes Map</h1>
 
       <div className = 'form'>
         <label>Status: Only 2 Characters</label>
