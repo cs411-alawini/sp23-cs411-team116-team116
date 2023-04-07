@@ -35,7 +35,7 @@ import Axios from 'axios';
 // }
 
 function App() {
-  const backendAddress = "https://whhuang4-cautious-goggles-4499vqp7pwvfqr4x-3002.preview.app.github.dev"
+  const backendAddress = "localhost:3002"
   // states under statusList
   const [Status, setStatus] = useState('');
   const [Status_Desc, setStatusDesc] = useState('');
