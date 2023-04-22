@@ -28,19 +28,19 @@ function App() {
 
   let Page; 
   if(pageStatus===0){
-    Page = <MainPage />
+    Page = <MainPage backendAddress= {backendAddress}/>
   }
   else if(pageStatus===1){
-    Page = <AreaVictim />
+    Page = <AreaVictim backendAddress= {backendAddress}/>
   }
   else if(pageStatus===2){
-    Page = <WeaponVictim />
+    Page = <WeaponVictim backendAddress= {backendAddress}/>
   }
   else if(pageStatus===3){
-    Page = <QueryHistory />
+    Page = <QueryHistory backendAddress= {backendAddress}/>
   }
   else if(pageStatus===4){
-    Page = <CrimeData />
+    Page = <CrimeData backendAddress= {backendAddress}/>
   }
   return (
     <div className="App">
