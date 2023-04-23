@@ -5,6 +5,8 @@ import WeaponVictim from './WeaponVictim/WeaponVictim.js'
 import MainPage from './MainPage/MainPage.js'
 import QueryHistory from './QueryHistory/QueryHistory.js'
 import { Menu } from 'primereact/menu';
+import 'primereact/resources/themes/saga-blue/theme.css';
+import 'primereact/resources/primereact.min.css';
 import React, {useState, useEffect} from "react";
 import Axios from 'axios';
 
@@ -19,11 +21,26 @@ function App() {
   };
 
   const items = [
-    {label: 'Search Crime in your location', icon: 'pi pi-fw pi-search', command: () => handleMenuItemClick(0)},
-    {label: 'Victims count by area', icon: 'pi pi-fw pi-chart-bar', command: () => handleMenuItemClick(1)},
-    {label: 'Victims count by weapon', icon: 'pi pi-fw pi-crosshairs', command: () => handleMenuItemClick(2)},
-    {label: 'Query History', icon: 'pi pi-fw pi-clock', command: () => handleMenuItemClick(3)},
-    {label: 'Crime data', icon: 'pi pi-fw pi-table', command: () => handleMenuItemClick(4)}
+    {label: 'Search Crime in your location', 
+      icon: 'pi pi-fw pi-search', 
+      command: () => handleMenuItemClick(0),
+      className: pageStatus === 0 ? 'active-menu-item' : ''},
+    {label: 'Victims count by area', 
+      icon: 'pi pi-fw pi-chart-bar', 
+      command: () => handleMenuItemClick(1),
+      className: pageStatus === 1 ? 'active-menu-item' : '',},
+    {label: 'Victims count by weapon', 
+      icon: 'pi pi-fw pi-crosshairs', 
+      command: () => handleMenuItemClick(2),
+      className: pageStatus === 2 ? 'active-menu-item' : '',},
+    {label: 'Query History', 
+      icon: 'pi pi-fw pi-clock', 
+      command: () => handleMenuItemClick(3),
+      className: pageStatus === 3 ? 'active-menu-item' : '',},
+    {label: 'Crime data', 
+      icon: 'pi pi-fw pi-table', 
+      command: () => handleMenuItemClick(4),
+      className: pageStatus === 4 ? 'active-menu-item' : '',}
   ];
 
   let Page; 
@@ -44,15 +61,14 @@ function App() {
   }
   return (
     <div className="App">
-      <h1>Crimes Map</h1>
-      <div>
+      <div className="left-sidebar">
+        <h1>Crimes Map</h1>
         <Menu model={items} />
-        <div>
-          {Page}
-        </div>
       </div>
+      <div className="main-content">{Page}</div>
     </div>
   );
+  
 }
 
 export default App;
