@@ -15,11 +15,3 @@ export async function hashPassword(password) {
     return hashHex;
   }
   
-  // Example usage
-  (async () => {
-    const password = 'YourSecurePassword';
-    // hashPassword is an async function, so we use await to get its result
-    const hashedPassword = await hashPassword(password);
-    console.log('Hashed password:', hashedPassword);
-  })();
-  
