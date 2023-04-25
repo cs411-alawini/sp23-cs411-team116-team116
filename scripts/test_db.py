@@ -91,9 +91,25 @@ def test_trigger():
     for row in user_results:
         print(row)
 
+def query_rows():
+    # Query the Query table and print the results
+    query_query = "SELECT * FROM `Query`"
+    cursor.execute(query_query)
+    query_results = cursor.fetchall()
+    print("Query table:")
+    for row in query_results:
+        print(row)
 
+    # Query the User table and print the results
+    user_query = "SELECT * FROM `User`"
+    cursor.execute(user_query)
+    user_results = cursor.fetchall()
+    print("User table:")
+    for row in user_results:
+        print(row)
 # test_store_procedure()
-test_trigger()
+# test_trigger()
+query_rows()
 
 # cursor.close()
 # cnx.close()
