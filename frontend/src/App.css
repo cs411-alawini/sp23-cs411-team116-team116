@@ -1,4 +1,4 @@
-/* input {
+input {
     width: 300px;
     height: 60px;
     margin: 10px;
@@ -19,7 +19,7 @@
     border:2px solid pink;
     border-radius: 15px;
     margin: 10px;
-} */
+}
 .App {
     font-family: 'Helvetica Neue', sans-serif;
   }
