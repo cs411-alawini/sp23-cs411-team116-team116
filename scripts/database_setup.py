@@ -14,7 +14,7 @@ def df_to_tuples(df, default_values):
 def data_processing():
     df = pd.read_csv('CrimeData.csv', header=0)
     # print(df)
-    Victim_Schema = ['DR_NO', 'Vict Age', 'Vict Sex', 'Weapon Used Cd', 'AREA', 'LAT', 'LON']
+    Victim_Schema = ['DR_NO', 'Vict Age', 'Vict Sex', 'Weapon Used Cd', 'Crm Cd', 'AREA', 'LAT', 'LON']
     Victim_df = df[Victim_Schema]
     print(Victim_df[:5])
 
@@ -23,14 +23,19 @@ def data_processing():
     Weapon_df = Weapon_df.drop_duplicates()
     print(Weapon_df[:5])
 
+    Crime_Type_Schema = ['Crm Cd', 'Crm Cd Desc']
+    Crime_Type_df = df[Crime_Type_Schema]
+    Crime_Type_df = Crime_Type_df.drop_duplicates()
+    print(Crime_Type_df[:5])
+
     Areas_Schema = ['AREA', 'AREA NAME']
     Areas_df = df[Areas_Schema]
     Areas_df = Areas_df.drop_duplicates()
     print(Areas_df[:5])
 
-    return Victim_df, Weapon_df, Areas_df
+    return Victim_df, Weapon_df, Crime_Type_df, Areas_df
 
-def db(Victim_df, Weapon_df, Areas_df):
+def db(Victim_df, Weapon_df, Crime_Type_df, Areas_df):
     # Configure the connection parameters
     config = {
         'host':'34.27.148.60',
@@ -58,8 +63,8 @@ def db(Victim_df, Weapon_df, Areas_df):
 
 
         insert_data_query = """
-        INSERT INTO `Victims` (`DR_NO`, `Vict_Age`, `Vict_Sex`, `Weapon_Used_Cd`, `AREA`, `LAT`, `LON`)
-        VALUES (%s, %s, %s, %s, %s, %s, %s)
+        INSERT INTO `Victims` (`DR_NO`, `Vict_Age`, `Vict_Sex`, `Weapon_Used_Cd`, `Crm_Cd`, `AREA`, `LAT`, `LON`)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
         """
 
         # Using try-except block to catch errors
@@ -172,15 +177,58 @@ def db(Victim_df, Weapon_df, Areas_df):
             connection.commit()
         except mysql.connector.Error as err:
             print(f"Error: {err}")
+
+    def Crime_Type_Table_Create():
+            # Victims
+            # Insert data into the table
+            delete_query = "DELETE FROM `Crime_Types`"
+            cursor.execute(delete_query)
+
+
+            insert_data_query = """
+            INSERT INTO `Crime_Types` (`Crm_Cd`, `Crm_Cd_Desc`)
+            VALUES (%s, %s)
+            """
+
+            # Using try-except block to catch errors
+            # print(Victim_df[0])
+            try:
+                
+                # cursor.execute(insert_data_query, Victim_df[0])
+                cursor.executemany(insert_data_query, Crime_Type_df)
+                connection.commit()
+            except mysql.connector.Error as err:
+                print(f"Error: {err}")
+
+        
+            fetch_data_query = """
+            SELECT * 
+            FROM `Crime_Types`
+            """
+
+            # Using try-except block to catch errors
+            try:
+                
+                cursor.execute(fetch_data_query)
+                # cursor.executemany(insert_data_query, Victim_df)
+                result = cursor.fetchall()
+                for row in result[:5]:
+                    print("Data in Crime_Types: ",row)
+                print("Data Len in Crime_Types: ", len(result))
+                connection.commit()
+            except mysql.connector.Error as err:
+                print(f"Error: {err}")
+
     # Close the cursor and the connection
     
     Victims_Table_Create()
     Areas_Table_Create()
     Weapons_Table_Create()
+    Crime_Type_Table_Create()
+
     cursor.close()
     connection.close()
 
-Victim_df, Weapon_df, Areas_df = data_processing()
 # Prepare default values for each DataFrame
 default_values_victim = {
     'DR_NO': 0,
@@ -197,17 +245,26 @@ default_values_weapon = {
     'Weapon Desc': ''
 }
 
-default_values_areas = {
+default_values_crime_type = {
     'AREA': 0,
     'AREA NAME': ''
 }
 
+default_values_areas = {
+    'Crm Cd': 0, 
+    'Crm Cd Desc': ''
+}
+
+Victim_df, Weapon_df, Crime_Type_df, Areas_df = data_processing()
 # Call df_to_tuples with the appropriate default values
 Victim_df = df_to_tuples(Victim_df, default_values_victim)
 Weapon_df = df_to_tuples(Weapon_df, default_values_weapon)
+Crime_Type_df = df_to_tuples(Crime_Type_df, default_values_crime_type)
 Areas_df = df_to_tuples(Areas_df, default_values_areas)
-print(Victim_df[:5], Weapon_df[:5], Areas_df[:5])
-db(Victim_df, Weapon_df, Areas_df)
+
+print(Victim_df[:5], Weapon_df[:5], Crime_Type_df[:5], Areas_df[:5])
+
+db(Victim_df, Weapon_df, Crime_Type_df, Areas_df)
 
 
 
