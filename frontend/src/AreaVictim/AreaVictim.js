@@ -7,7 +7,7 @@ function AreaVictim(props) {
     const [victimByAreaList, setVictimByAreaList] = useState([]);
 
     const getAreaVictimList = () => {
-    Axios.get(props.backendAddress + '/api/get/list1', { params: { _cache: Date.now() }})
+    Axios.get(props.backendAddress + '/api/area_victims_cnt/get', { params: { _cache: Date.now() }})
     .then((response) => {
             console.log('Sending request to backend server...');
             setVictimByAreaList(response.data);
@@ -25,7 +25,7 @@ function AreaVictim(props) {
             {victimByAreaList.map((val) => {
               return (
                 <div class="card">
-                  <h2>Area: {val.Area}</h2>
+                  <h2>{val.Area}</h2>
                   <p>Victim Count: {val.Victim_Count}</p>
                 </div>
               );

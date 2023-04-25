@@ -90,11 +90,11 @@ app.get("/api/mainpage/get", (req, response) => {
         if (err)
             console.log(err);
         console.log(result);
-        db.query('SELECT @output_query_id', (err, result) => {
+        db.query('SELECT * FROM `Query` WHERE Query_ID=@output_query_id', (err, result1) => {
             if (err)
                 console.log(err);
-            console.log(result);
-            response.send(result);
+            console.log(result1);
+            response.send(result1);
         });
     });
 });
@@ -137,7 +137,7 @@ app.get("/api/queryhistory/get", (require, response) => {
 
 // Crime record CRUD page
 app.get("/api/crimedata/get", (require, response) => {
-    const sqlSelect = """SELECT * FROM `Victims`";
+    const sqlSelect = "SELECT * FROM `Victims`";
     console.log("/api/crimedata/get");
     db.query(sqlSelect, (err, result) => {
         console.log(result);
