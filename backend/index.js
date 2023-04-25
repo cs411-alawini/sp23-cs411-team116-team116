@@ -182,6 +182,7 @@ app.post("/api/crimedata/insert", (require, response) => {
     db.query(sqlInsert, [DR_NO, Vict_Age, Vict_Sex, Weapon_Used_Cd, Crm_Cd, AREA, LAT, LON], (err,result) => {
         console.log(err);
     })
+    
 });
 
 app.put("/api/crimedata/update", (require, response) => {
@@ -197,10 +198,15 @@ app.put("/api/crimedata/update", (require, response) => {
     console.log("update");
 
     const updateQuery = "UPDATE `Victims` SET Vict_Age = ?, Vict_Sex = ?, Weapon_Used_Cd = ?, Crm_Cd = ?, AREA = ?, LAT = ?, LON = ? WHERE DR_NO = ?";
+    // const updateQuery = "UPDATE `Victims` SET Crm_Cd = ? WHERE DR_NO = ?";
     db.query(updateQuery, [Vict_Age, Vict_Sex, Weapon_Used_Cd, Crm_Cd, AREA, LAT, LON, DR_NO], (err,result) => {
         if(err)
         console.log(err);
     })
+    // db.query(updateQuery, [Crm_Cd, DR_NO], (err,result) => {
+    //     if(err)
+    //     console.log(err);
+    // })
 });
 
 app.delete("/api/crimedata/delete/:DR_NO", (require, response) => {
@@ -208,7 +214,7 @@ app.delete("/api/crimedata/delete/:DR_NO", (require, response) => {
     console.log("delete");
     const sqlDelete = "DELETE FROM Victims WHERE DR_NO=?;";
     // console.log(DR_NO);
-    db.query(sqlDelete, DR_NO, (err, result) => {
+    db.query(sqlDelete, [DR_NO], (err, result) => {
         if(err)
         console.log(err);
     })

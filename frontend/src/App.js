@@ -17,8 +17,8 @@ import Axios from 'axios';
 
 function App() {
 
-  // const backendAddress = "http://localhost:3002"
-  const backendAddress = "https://whhuang4-bug-free-acorn-9v4456g9pjqf9rpg-3002.preview.app.github.dev"
+  const backendAddress = "http://localhost:3002"
+  // const backendAddress = "https://whhuang4-bug-free-acorn-9v4456g9pjqf9rpg-3002.preview.app.github.dev"
 
 
   // page status, 0 = MainPage, 1 = Victims by Areas, 2 = Victims by Weapons, 3 = Query History, 4 = Crime Data
@@ -130,7 +130,6 @@ function App() {
     <div className="App">
     <div className="App-container">
       <div className="left-sidebar">
-        <h1>Crimes Map</h1>
         <Menu model={items} className="App-menu"/>
         <div style={{height: '2rem'}}></div>
         <div className="w-full md:w-5 flex flex-column align-items-s justify-content-center gap-3 py-5 mt-5">

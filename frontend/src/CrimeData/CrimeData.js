@@ -14,6 +14,7 @@ function CrimeData(props) {
   const [lat, setLat] = React.useState(0);
   const [lon, setLon] = React.useState(0);
   const [crimeList, setCrimeList] = React.useState([]);
+  const [newCrimeCode, setNewCrimeCode] = React.useState(0);
 
   const refreshList = () => {
     console.log("start refresh")
@@ -54,11 +55,28 @@ function CrimeData(props) {
     refreshList();
   };
 
-  const deleteCrime = () => {
-    const baseUrl = props.backendAddress + '/api/crimedata/delete/:DR_NO'
-    Axios.delete(props.backendAddress + '/api/crimedata/delete/:DR_NO').then(() => {
+  const deleteCrime = (DR_NO) => {
+    const baseUrl = props.backendAddress + '/api/crimedata/delete/'
+    Axios.delete(`${baseUrl}${DR_NO}`).then(() => {
       alert('success delete')
       
+    });
+    refreshList();
+  }
+
+  const updateCrime = (DR_NO) => {
+    Axios.put(props.backendAddress + '/api/crimedata/update', {
+      DR_NO: DR_NO,
+      Vict_Age: victAge,
+      Crm_Cd: newCrimeCode,
+      Vict_Sex: victSex,
+      Weapon_Used_Cd: weaponUsedCd,
+      AREA: area,
+      LAT: lat,
+      LON: lon
+    }).then(() => {
+      alert('success update')
+      setNewCrimeCode("");
     });
     refreshList();
   }
@@ -112,13 +130,14 @@ function CrimeData(props) {
               <p>Weapon Code: {val.Weapon_Used_Cd}</p>
               <p>Crime Code: {val.Crm_Cd}</p>
               <p>Area: {val.AREA}</p>
+              <b></b>
               <button onClick={() => {deleteCrime(val.DR_NO)}}>DELETE</button>
-              {/* <input type="text" id="updateCrime" onChange={(e) => {
-                setNewStatusDesc(e.target.value)
+              <input className = "updateInput" type="text" id="updateCrime" onChange={(e) => {
+                setNewCrimeCode(e.target.value)
               }} />
               <button onClick={() => {
-                updateStatus(val.DR_NO)
-              }}>UPDATE</button> */}
+                updateCrime(val.DR_NO)
+              }}>UPDATE</button>
             </div>
           );
       })}</div>
