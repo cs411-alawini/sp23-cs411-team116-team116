@@ -90,11 +90,11 @@ app.get("/api/mainpage/get", (req, response) => {
         if (err)
             console.log(err);
         console.log(result);
-        db.query('SELECT @output_query_id', (err, result) => {
+        db.query('SELECT * FROM `Query` WHERE Query_ID=@output_query_id', (err, result1) => {
             if (err)
                 console.log(err);
-            console.log(result);
-            response.send(result);
+            console.log(result1);
+            response.send(result1);
         });
     });
 });

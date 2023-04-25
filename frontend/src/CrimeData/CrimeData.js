@@ -35,6 +35,8 @@ function CrimeData(props) {
     // pass arguments to backend API here
     console.log(drNo, victAge, victSex, weaponUsedCd, crmCode, area, lat, lon);
   };
+  
+  
 
   const insertCrime = () => {
     Axios.post(props.backendAddress + '/api/crimedata/insert', {

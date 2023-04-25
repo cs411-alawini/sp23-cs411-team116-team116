@@ -3,7 +3,7 @@ import React, {useState, useEffect} from "react";
 import Axios from 'axios';
 
 
-function MainPage(backendAddress) {
+function MainPage(props) {
     const [query, setQuery] = useState({
         Query_ID: 0,
         User: 0,
@@ -21,9 +21,9 @@ function MainPage(backendAddress) {
       });
 
     const getSearchData = (userId, latitude, longitude, radius) => {
-        const queryUrl = backendAddress + '/api/mainpage/get';
+        const queryUrl = props.backendAddress + '/api/mainpage/get';
         Axios.get(queryUrl, {
-            params: {
+            headers: {
                 user_id: userId,
                 lat: latitude,
                 lon: longitude, 
@@ -32,8 +32,9 @@ function MainPage(backendAddress) {
             })
             .then(function(response) {
                 console.log(response.data); // Handle the response data
-                const [wp1, wp2, wp3] = response.data.Most_Common_Weapon_Type.split(';');
-                const [ct1, ct2, ct3] = response.data.Most_Common_Crime_Type.split(';');
+                const [wp1, wp2, wp3] = response.data.Most_Common_Weapon_Type ? response.data.Most_Common_Weapon_Type.split(';') : ['', '', ''];
+                const [ct1, ct2, ct3] = response.data.Most_Common_Crime_Type ? response.data.Most_Common_Crime_Type.split(';') : ['', '', ''];
+
                 setQuery({
                     Query_ID: response.data.Query_ID,
                     User: response.data.User,
@@ -55,13 +56,59 @@ function MainPage(backendAddress) {
             });
     }
 
+    const handleSearch = () => {
+        const latitude = document.getElementById('latitude').value;
+        const longitude = document.getElementById('longitude').value;
+        const radius = document.getElementById('radius').value;
+        getSearchData(props.userInfo.user_name, latitude, longitude, radius);
+    }
+
     // access example of query
     // const tmp = query.Weapon1
     return (
-    <div className="MainPage">
-        <h1>Main Page</h1>
+        <div className="MainPage">
+          <div className="SearchVictim">
+            <div className="title">Search Victims by Location</div>
+            <div className="form">
+              <input type="text" id="latitude" name="latitude" placeholder='Enter Latitude'/>
+              <br />
+              <input type="text" id="longitude" name="longitude" placeholder='Enter Longitude'/>
+              <br />
+              <input type="text" id="radius" name="radius" placeholder='Enter Radius'/>
+            </div>
+            <button onClick={handleSearch}>Search</button>
+          </div>
+    
+          <div className="SearchResults">
+            <table>
+              <thead>
+                <tr>
+                  <th>Victim ID</th>
+                  <th>Name</th>
+                  <th>Age</th>
+                  <th>Gender</th>
+                  <th>Location</th>
+                  <th>Crime Type</th>
+                  <th>Crime Date</th>
+                  <th>Crime Level</th>
+                </tr>
+              </thead>
+              <tbody>
+              <tr key={query.id}>
+                <td>{query.Radius}</td>
+                <td>{query.name}</td>
+                <td>{query.age}</td>
+                <td>{query.gender}</td>
+                <td>({}, {query.LON})</td>
+                <td>{query.crimeType}</td>
+                <td>{query.crimeDate}</td>
+                <td>{query.crimeLevel}</td>
+              </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
-    );
+  );
 }
 
 export default MainPage;
