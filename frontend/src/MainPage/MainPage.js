@@ -1,8 +1,13 @@
 import './MainPage.css';
 import React, {useState, useEffect} from "react";
 import Axios from 'axios';
+import { InputText } from 'primereact/inputtext';
+// import "primereact/resources/themes/lara-light-indigo/theme.css";  
+import 'primereact/resources/themes/saga-blue/theme.css';
+import 'primereact/resources/primereact.min.css';           
 
 
+      
 function MainPage(props) {
     const [query, setQuery] = useState({
         Query_ID: 0,
@@ -66,16 +71,12 @@ function MainPage(props) {
     // access example of query
     // const tmp = query.Weapon1
     return (
-        <div className="MainPage">
-          <div className="SearchVictim">
-            <div className="title">Search Victims by Location</div>
-            <div className="form">
-              <input type="text" id="latitude" name="latitude" placeholder='Enter Latitude'/>
-              <br />
-              <input type="text" id="longitude" name="longitude" placeholder='Enter Longitude'/>
-              <br />
-              <input type="text" id="radius" name="radius" placeholder='Enter Radius'/>
-            </div>
+        <div className="SearchVictim">
+          <div className="title">Search Victims by Location</div>
+          <div className="flex flex-wrap justify-content-center align-items-center gap-2 horizontal-inputs">
+            <InputText id="latitude" name="latitude" placeholder='Enter Latitude'/>
+            <InputText id="longitude" name="longitude" placeholder='Enter Longitude'/>
+            <InputText id="radius" name="radius" placeholder='Enter Radius'/>
             <button onClick={handleSearch}>Search</button>
           </div>
     
