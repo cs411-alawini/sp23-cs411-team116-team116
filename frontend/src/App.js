@@ -16,8 +16,9 @@ import Axios from 'axios';
 
 
 function App() {
-  const backendAddress = "http://localhost:3002"
-  // const backendAddress = "https://whhuang4-cautious-goggles-4499vqp7pwvfqr4x-3002.preview.app.github.dev"
+  // const backendAddress = "http://localhost:3002"
+  const backendAddress = "https://premdhoot-friendly-space-garbanzo-wvj764v7r65hxgw-3002.preview.app.github.dev"
+
   // page status, 0 = MainPage, 1 = Victims by Areas, 2 = Victims by Weapons, 3 = Query History, 4 = Crime Data
   const [pageStatus, setPageStatus] = useState(0);
   const [userMessage, setuserMessage] = useState('');
@@ -96,9 +97,10 @@ function App() {
   }
   return (
     <div className="App">
+    <div className="App-container">
       <div className="left-sidebar">
         <h1>Crimes Map</h1>
-        <Menu model={items} />
+        <Menu model={items} className="App-menu"/>
         <div style={{height: '2rem'}}></div>
         <div className="w-full md:w-5 flex flex-column align-items-s justify-content-center gap-3 py-5 mt-5">
           <div className="flex flex-wrap justify-content-center align-items-center gap-2">
@@ -127,9 +129,9 @@ function App() {
           <div>{userMessage}</div>
         </div>
       </div>
-      <div className="main-content">{Page}</div>
+      <div className="main-content App-page">{Page}</div>
     </div>
-
+    </div>
   );
   
 }
