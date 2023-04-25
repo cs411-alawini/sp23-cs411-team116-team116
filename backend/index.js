@@ -41,17 +41,63 @@ app.use(express.json());
 //         response.send("Hello World");
 //     })
 // })
-// sidebar user function
-app.post("/api/user/register", (require, response) => {
 
+// sidebar user function
+// send data by body
+app.post("/api/user/register", (require, response) => {
+    const user_name = require.body.user_name;
+    const hashed_password = require.body.user_name;
+    const sqlSelect = "SELECT * FROM User u WHERE u.User_Id = ?";
+    const sqlInsert = "INSERT INTO `User` (`User_Id`, `Hashed_Password`) VALUES (?,?)";
+    db.query(sqlSelect, [user_name], (err, result) => {
+        if(err)
+            console.log(err);
+        console.log(result);
+        if (result.length > 0) {
+            response.send("User Exists");
+        }
+        else{
+            db.query(sqlInsert, [user_name, hashed_password], (err, result) => {
+                if(err)
+                    console.log(err);
+                console.log(result);
+            });
+            response.send("Regester Success");
+        }
+    });
 });
 
 app.delete("/api/user/delete", (require, response) => {
-    
+    const user_name = require.body.user_name;
+    const hashed_password = require.body.user_name;
+    const sqlSelect = "SELECT * FROM User u WHERE u.User_Id = ?";
+    const sqlDelete = "DELETE FROM `User` WHERE u.User_Id = ?";
+    db.query(sqlSelect, [user_name], (err, result) => {
+        if(err)
+            console.log(err);
+        console.log(result);
+        if (result.length == 0) {
+            response.send("User not Exists");
+        }
+        else{
+            if(hashed_password!=result[0].Hashed_Password){
+                response.send("Password Incorrect");
+            }
+            else{
+                db.query(sqlDelete, [user_name], (err, result) => {
+                    if(err)
+                        console.log(err);
+                    console.log(result);
+                });
+                response.send("Delete Success");
+            }
+        }
+    });
 });
+
 // main page
 app.get("/api/mainpage/get", (require, response) => {
-
+    const query = 'CALL GetCrimeInfo(?, ?, ?, ?, @output_query_id)';
 });
 // app.get("/api/search/by/status/:searchInput", (require, response) => {
 //     const searchInput = require.params.searchInput;
@@ -70,11 +116,10 @@ app.get("/api/mainpage/get", (require, response) => {
 
 // Victims by Areas
 app.get("/api/area_victims_cnt/get", (require, response) => {
-    const sqlSelect = "SELECT `Area Name` AS Area, COUNT(v.DR_NO) AS Victim_Count FROM Areas a JOIN Victims v ON a.DR_NO=v.DR_NO GROUP BY `Area Name`";
-    console.log("get1");
+    const sqlSelect = "SELECT a.Area_Name AS Area, COUNT(v.DR_NO) AS Victim_Count FROM Victims v JOIN Areas a ON a.AREA=v.AREA GROUP BY a.Area_Name";
+    console.log("/api/area_victims_cnt/get");
     db.query(sqlSelect, (err, result) => {
         console.log(result);
-        // console.log(newList)
         response.send(result);
         if(err)
             console.log(err);
@@ -83,11 +128,10 @@ app.get("/api/area_victims_cnt/get", (require, response) => {
 
 // Victims by Weapons
 app.get("/api/weapon_victims_cnt/get", (require, response) => {
-    const sqlSelect = "SELECT `Area Name` AS Area, COUNT(v.DR_NO) AS Victim_Count FROM Areas a JOIN Victims v ON a.DR_NO=v.DR_NO GROUP BY `Area Name`";
-    console.log("get1");
+    const sqlSelect = "SELECT w.Weapon_Desc AS Weapon_Desc, COUNT(v.DR_NO) AS Victim_Count FROM Victims v JOIN Weapons w ON v.Weapon_Used_Cd=w.Weapon_Used_Cd GROUP BY Weapon_Desc";
+    console.log("/api/area_victims_cnt/get");
     db.query(sqlSelect, (err, result) => {
         console.log(result);
-        // console.log(newList)
         response.send(result);
         if(err)
             console.log(err);
@@ -100,6 +144,10 @@ app.get("/api/queryhistory/get", (require, response) => {
 });
 
 // Crime record CRUD page
+app.get("/api/crimedata/get", (require, response) => {
+
+});
+
 app.post("/api/crimedata/insert", (require, response) => {
     const Status = require.body.Status;
     const Status_Desc = require.body.Status_Desc;
