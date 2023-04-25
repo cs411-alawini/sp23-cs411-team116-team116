@@ -23,7 +23,7 @@ function App() {
 
   // page status, 0 = MainPage, 1 = Victims by Areas, 2 = Victims by Weapons, 3 = Query History, 4 = Crime Data
   const [pageStatus, setPageStatus] = useState(0);
-  const [userMessage, setuserMessage] = useState('');
+  const [userMessage, setUserMessage] = useState('');
   const [queryHistoryList, setQueryHistoryList] = useState([]);
   const [userInfo, setUserInfo] = useState({
     user_name: 'NULL',
@@ -32,21 +32,22 @@ function App() {
   const handleMenuItemClick = (newPageStatus) => {
     setPageStatus(newPageStatus);
   };
+  useEffect(() => {
+    console.log('queryHistoryList updated:', queryHistoryList);
+  }, [queryHistoryList]);
 
   const handleShowQueryHistory = async() => {
-    setPageStatus(3);
     const queryHistoryUrl = backendAddress + '/api/queryhistory/get';
     const hashedpassword = await hashPassword(userInfo.password);
-    Axios.get(queryHistoryUrl, {
-        body: {
-            user_id: userInfo.user_name,
-            hashedpassword: hashedpassword
-        }
+    Axios.post(queryHistoryUrl, {
+          user_name: userInfo.user_name,
+          hashed_password: hashedpassword
         })
         .then(function(response) {
-            console.log(response.data); // Handle the response data
-            setQueryHistoryList(response.data);
-            setuserMessage(response.message);
+          console.log("response.data", response.data.content); // Handle the response data
+          setUserMessage(response.message);
+          setQueryHistoryList(response.data.content);
+          setPageStatus(3);
         })
         .catch(function(error) {
             console.error(error); // Handle the error
@@ -57,31 +58,27 @@ function App() {
     const regHistoryUrl = backendAddress + '/api/user/register';
     const hashedpassword = await hashPassword(userInfo.password);
     Axios.post(regHistoryUrl, {
-        body: {
-            user_id: userInfo.user_name,
-            hashedpassword: hashedpassword
-        }
+            user_name: userInfo.user_name,
+            hashed_password: hashedpassword
         })
         .then(function(response) {
             console.log(response.data); // Handle the response data
-            setuserMessage(response.message);
+            setUserMessage(response.message);
         })
         .catch(function(error) {
             console.error(error); // Handle the error
         });
   }
   const handleDeleteUser = async() => {
-    const regHistoryUrl = backendAddress + '/api/user/ㄍㄠ';
+    const regHistoryUrl = backendAddress + '/api/user/delete';
     const hashedpassword = await hashPassword(userInfo.password);
-    Axios.delete(regHistoryUrl, {
-        body: {
-            user_id: userInfo.user_name,
-            hashedpassword: hashedpassword
-        }
+    Axios.post(regHistoryUrl, {
+            user_name: userInfo.user_name,
+            hashed_password: hashedpassword
         })
         .then(function(response) {
             console.log(response.data); // Handle the response data
-            setuserMessage(response.message);
+            setUserMessage(response.message);
         })
         .catch(function(error) {
             console.error(error); // Handle the error
