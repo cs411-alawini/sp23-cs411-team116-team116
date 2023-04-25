@@ -17,8 +17,8 @@ import Axios from 'axios';
 
 function App() {
 
-  const backendAddress = "http://localhost:3002"
-  // const backendAddress = "https://whhuang4-bug-free-acorn-9v4456g9pjqf9rpg-3002.preview.app.github.dev"
+  // const backendAddress = "http://localhost:3002"
+  const backendAddress = "https://premdhoot-musical-giggle-xrqw645j6g62ppp5-3002.preview.app.github.dev"
 
 
   // page status, 0 = MainPage, 1 = Victims by Areas, 2 = Victims by Weapons, 3 = Query History, 4 = Crime Data

@@ -25,7 +25,10 @@ function MainPage(props) {
         Crime_Level: 'GREEN',
       });
 
+    const [loading, setLoading] = useState(false);
+
     const getSearchData = (userId, latitude, longitude, radius) => {
+        setLoading(true)
         const queryUrl = props.backendAddress + '/api/mainpage/get';
         Axios.get(queryUrl, {
             headers: {
@@ -36,28 +39,30 @@ function MainPage(props) {
             }
             })
             .then(function(response) {
-                console.log(response.data); // Handle the response data
-                const [wp1, wp2, wp3] = response.data.Most_Common_Weapon_Type ? response.data.Most_Common_Weapon_Type.split(';') : ['', '', ''];
-                const [ct1, ct2, ct3] = response.data.Most_Common_Crime_Type ? response.data.Most_Common_Crime_Type.split(';') : ['', '', ''];
-
+                console.log("response.data",response.data); // Handle the response data
+                const [wp1, wp2, wp3] = response.data[0].Most_Common_Weapon_Type ? response.data[0].Most_Common_Weapon_Type.split(';') : ['', '', ''];
+                const [ct1, ct2, ct3] = response.data[0].Most_Common_Crime_Type ? response.data[0].Most_Common_Crime_Type.split(';') : ['', '', ''];
+                console.log(response.data[0].Query_ID)
                 setQuery({
-                    Query_ID: response.data.Query_ID,
-                    User: response.data.User,
-                    LAT: response.data.LAT,
-                    LON: response.data.LON,
-                    Radius: response.data.Radius,
+                    Query_ID: response.data[0].Query_ID,
+                    User: response.data[0].User,
+                    LAT: response.data[0].LAT,
+                    LON: response.data[0].LON,
+                    Radius: response.data[0].Radius,
                     Weapon1: wp1,
                     Weapon2: wp2,
                     Weapon3: wp3,
                     Crime_Type1: ct1,
                     Crime_Type2: ct2,
                     Crime_Type3: ct3,
-                    Crime_Count: response.data.Crime_Count,
-                    Crime_Level: response.data.Crime_Level,
+                    Crime_Count: response.data[0].Crime_Count,
+                    Crime_Level: response.data[0].Crime_Level,
                   });
+                setLoading(false)
             })
             .catch(function(error) {
                 console.error(error); // Handle the error
+                setLoading(false)
             });
     }
 
@@ -68,8 +73,12 @@ function MainPage(props) {
         getSearchData(props.userInfo.user_name, latitude, longitude, radius);
     }
 
-    // access example of query
-    // const tmp = query.Weapon1
+    useEffect(() => {
+    // This will run every time the `query` state changes
+    console.log(query.LAT)
+    console.log('Query updated:', query);
+  }, [query]);
+
     return (
         <div className="SearchVictim">
           <div className="title">Search Victims by Location</div>
@@ -86,26 +95,20 @@ function MainPage(props) {
                 <tr>
                   <th>Victim ID</th>
                   <th>Name</th>
-                  <th>Age</th>
-                  <th>Gender</th>
                   <th>Location</th>
                   <th>Crime Type</th>
-                  <th>Crime Date</th>
                   <th>Crime Level</th>
                 </tr>
               </thead>
               <tbody>
-              <tr key={query.id}>
-                <td>{query.Radius}</td>
-                <td>{query.name}</td>
-                <td>{query.age}</td>
-                <td>{query.gender}</td>
-                <td>({}, {query.LON})</td>
-                <td>{query.crimeType}</td>
-                <td>{query.crimeDate}</td>
-                <td>{query.crimeLevel}</td>
-              </tr>
-          </tbody>
+                <tr key={query.Query_ID}>
+                  <td>{query.Query_ID}</td>
+                  <td>{query.User || 'None'}</td>
+                  <td>{query.LAT ? `${query.LAT}, ${query.LON}` : 'None'}</td>
+                  <td>{query.Crime_Type1 || 'None'}</td>
+                  <td>{query.Crime_Level || 'None'}</td>
+                </tr>
+              </tbody>
         </table>
       </div>
     </div>
