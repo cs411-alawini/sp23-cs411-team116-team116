@@ -9,7 +9,7 @@ var db = mysql.createConnection({
  host:'34.27.148.60',
  user: 'root',
  password:'1234',
- database:'cs411crime',
+ database:'CS411CrimeData',
 })
 
 db.connect((err) => {
@@ -41,8 +41,66 @@ app.use(express.json());
 //         response.send("Hello World");
 //     })
 // })
+// sidebar user function
+app.post("/api/user/register", (require, response) => {
 
-app.post("/api/insert", (require, response) => {
+});
+
+app.delete("/api/user/delete", (require, response) => {
+    
+});
+// main page
+app.get("/api/mainpage/get", (require, response) => {
+
+});
+// app.get("/api/search/by/status/:searchInput", (require, response) => {
+//     const searchInput = require.params.searchInput;
+//     const sqlSelect = "SELECT * FROM Status s WHERE s.Status= ? LIMIT 1000";
+//     console.log("search");
+//     db.query(sqlSelect, [searchInput], (err, result) => {
+//         console.log(result);
+//         // console.log(newList)
+//         response.send(result);
+//         if(err)
+//             console.log(err);
+//     });
+// });
+
+
+
+// Victims by Areas
+app.get("/api/area_victims_cnt/get", (require, response) => {
+    const sqlSelect = "SELECT `Area Name` AS Area, COUNT(v.DR_NO) AS Victim_Count FROM Areas a JOIN Victims v ON a.DR_NO=v.DR_NO GROUP BY `Area Name`";
+    console.log("get1");
+    db.query(sqlSelect, (err, result) => {
+        console.log(result);
+        // console.log(newList)
+        response.send(result);
+        if(err)
+            console.log(err);
+    });
+});
+
+// Victims by Weapons
+app.get("/api/weapon_victims_cnt/get", (require, response) => {
+    const sqlSelect = "SELECT `Area Name` AS Area, COUNT(v.DR_NO) AS Victim_Count FROM Areas a JOIN Victims v ON a.DR_NO=v.DR_NO GROUP BY `Area Name`";
+    console.log("get1");
+    db.query(sqlSelect, (err, result) => {
+        console.log(result);
+        // console.log(newList)
+        response.send(result);
+        if(err)
+            console.log(err);
+    });
+});
+
+// Query table
+app.get("/api/queryhistory/get", (require, response) => {
+
+});
+
+// Crime record CRUD page
+app.post("/api/crimedata/insert", (require, response) => {
     const Status = require.body.Status;
     const Status_Desc = require.body.Status_Desc;
     const DR_NO = require.body.DR_NO;
@@ -56,86 +114,39 @@ app.post("/api/insert", (require, response) => {
     })
 });
 
-app.get("/api/get/list0", (require, response) => {
-    const sqlSelect = "SELECT * FROM Status LIMIT 1000";
-    console.log("get");
-    db.query(sqlSelect, (err, result) => {
-        console.log(result[0]['Status Desc']);
-        const newList = result.map(row=> ({
-            Status: row.Status,
-            Status_Desc: row['Status Desc'],
-            DR_NO: row.DR_NO
-        }))
-        // console.log(newList)
-        response.send(newList);
-    });
+app.put("/api/crimedata/update", (require, response) => {
+
 });
+// app.put("/api/update/", (require, response) => {
+//     // const Status = require.body.Status;
+//     const Status_Desc = require.body.Status_Desc;
+//     const DR_NO = require.body.DR_NO;
 
-app.get("/api/get/list1", (require, response) => {
-    const sqlSelect = "SELECT `Area Name` AS Area, COUNT(v.DR_NO) AS Victim_Count FROM Areas a JOIN Victims v ON a.DR_NO=v.DR_NO GROUP BY `Area Name`";
-    console.log("get1");
-    db.query(sqlSelect, (err, result) => {
-        console.log(result);
-        // console.log(newList)
-        response.send(result);
-        if(err)
-            console.log(err);
-    });
-});
+//     console.log("update");
+//     console.log(require.body);
 
-app.get("/api/get/list2", (require, response) => {
-    const sqlSelect = "SELECT `Weapon Desc` AS Weapon, COUNT(v.DR_NO) AS Victim_Count FROM Weapons w JOIN Victims v ON w.DR_NO=v.DR_NO GROUP BY `Weapon Desc`";
-    console.log("get2");
-    db.query(sqlSelect, (err, result) => {
-        console.log(result);
-        // console.log(newList)
-        response.send(result);
-        if(err)
-            console.log(err);
-    });
-});
+//     const sqlUpdate = "UPDATE `Status` SET `Status Desc` = ? WHERE `DR_NO` = ?";
+//     db.query(sqlUpdate, [Status_Desc,DR_NO], (err,result) => {
+//         if(err)
+//         console.log(err);
+//     })
+// });
 
-app.get("/api/search/by/status/:searchInput", (require, response) => {
-    const searchInput = require.params.searchInput;
-    const sqlSelect = "SELECT * FROM Status s WHERE s.Status= ? LIMIT 1000";
-    console.log("search");
-    db.query(sqlSelect, [searchInput], (err, result) => {
-        console.log(result);
-        // console.log(newList)
-        response.send(result);
-        if(err)
-            console.log(err);
-    });
-});
+app.delete("/api/crimedata/delete", (require, response) => {
+}); 
+// app.delete("/api/delete/:DR_NO", (require, response) => {
+//     // const Status = require.params.Status;
+//     const DR_NO = require.params.DR_NO;
+//     console.log("delete");
+//     console.log(require.params);
+//     const sqlDelete = "DELETE FROM `Status` WHERE `DR_NO`=?;";
+//     // console.log(DR_NO);
+//     db.query(sqlDelete, DR_NO, (err, result) => {
+//         if(err)
+//         console.log(err);
+//     })
+// });
 
-
-app.delete("/api/delete/:DR_NO", (require, response) => {
-    // const Status = require.params.Status;
-    const DR_NO = require.params.DR_NO;
-    console.log("delete");
-    console.log(require.params);
-    const sqlDelete = "DELETE FROM `Status` WHERE `DR_NO`=?;";
-    // console.log(DR_NO);
-    db.query(sqlDelete, DR_NO, (err, result) => {
-        if(err)
-        console.log(err);
-    })
-});
-
-app.put("/api/update/", (require, response) => {
-    // const Status = require.body.Status;
-    const Status_Desc = require.body.Status_Desc;
-    const DR_NO = require.body.DR_NO;
-
-    console.log("update");
-    console.log(require.body);
-
-    const sqlUpdate = "UPDATE `Status` SET `Status Desc` = ? WHERE `DR_NO` = ?";
-    db.query(sqlUpdate, [Status_Desc,DR_NO], (err,result) => {
-        if(err)
-        console.log(err);
-    })
-});
 
 app.listen(3002, '0.0.0.0', () => {
  console.log("running on port 3002");

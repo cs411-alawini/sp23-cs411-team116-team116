@@ -6,3 +6,9 @@ Project Summary: This project uses a dataset to create visualizations that showc
 `npm start`
 ### Backend
 `npm run devStart`
+
+### Database setup
+1. Download dataset from https://www.kaggle.com/datasets/susant4learning/crime-in-los-angeles-data-from-2020-to-present?sort=votes
+2. Uncompress and Rename as `CrimeData.csv`
+3. Run `python3 database_setup.py`
+
