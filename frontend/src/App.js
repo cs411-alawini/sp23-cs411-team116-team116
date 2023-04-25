@@ -17,15 +17,15 @@ import Axios from 'axios';
 
 function App() {
 
-  const backendAddress = "http://localhost:3002"
-  // const backendAddress = "https://premdhoot-friendly-space-garbanzo-wvj764v7r65hxgw-3002.preview.app.github.dev"
+  // const backendAddress = "http://localhost:3002"
+  const backendAddress = "https://whhuang4-bug-free-acorn-9v4456g9pjqf9rpg-3002.preview.app.github.dev"
 
 
   // page status, 0 = MainPage, 1 = Victims by Areas, 2 = Victims by Weapons, 3 = Query History, 4 = Crime Data
   const [pageStatus, setPageStatus] = useState(0);
   const [userMessage, setuserMessage] = useState('');
   const [queryHistoryList, setQueryHistoryList] = useState([]);
-  const [userInfo, setuserInfo] = useState({
+  const [userInfo, setUserInfo] = useState({
     user_name: 'NULL',
     password: ''
   });
@@ -38,7 +38,7 @@ function App() {
     const queryHistoryUrl = backendAddress + '/api/queryhistory/get';
     const hashedpassword = await hashPassword(userInfo.password);
     Axios.get(queryHistoryUrl, {
-        params: {
+        body: {
             user_id: userInfo.user_name,
             hashedpassword: hashedpassword
         }
@@ -46,17 +46,46 @@ function App() {
         .then(function(response) {
             console.log(response.data); // Handle the response data
             setQueryHistoryList(response.data);
+            setuserMessage(response.message);
         })
         .catch(function(error) {
             console.error(error); // Handle the error
         });
   }
 
-  const handleRegister = () => {
-
+  const handleRegister = async() => {
+    const regHistoryUrl = backendAddress + '/api/user/register';
+    const hashedpassword = await hashPassword(userInfo.password);
+    Axios.post(regHistoryUrl, {
+        body: {
+            user_id: userInfo.user_name,
+            hashedpassword: hashedpassword
+        }
+        })
+        .then(function(response) {
+            console.log(response.data); // Handle the response data
+            setuserMessage(response.message);
+        })
+        .catch(function(error) {
+            console.error(error); // Handle the error
+        });
   }
-  const handleDeleteUser = () => {
-
+  const handleDeleteUser = async() => {
+    const regHistoryUrl = backendAddress + '/api/user/ㄍㄠ';
+    const hashedpassword = await hashPassword(userInfo.password);
+    Axios.delete(regHistoryUrl, {
+        body: {
+            user_id: userInfo.user_name,
+            hashedpassword: hashedpassword
+        }
+        })
+        .then(function(response) {
+            console.log(response.data); // Handle the response data
+            setuserMessage(response.message);
+        })
+        .catch(function(error) {
+            console.error(error); // Handle the error
+        });
   }
   const items = [
     {label: 'Search Crime in your location', 
@@ -92,7 +121,7 @@ function App() {
     Page = <WeaponVictim backendAddress= {backendAddress}/>
   }
   else if(pageStatus===3){
-    Page = <QueryHistory backendAddress= {backendAddress} userInfo={userInfo}/>
+    Page = <QueryHistory backendAddress= {backendAddress} userInfo={userInfo} queryHistoryList={queryHistoryList}/>
   }
   else if(pageStatus===4){
     Page = <CrimeData backendAddress= {backendAddress}/>
@@ -109,13 +138,13 @@ function App() {
             <label htmlFor="username" className="w-6rem">
               Username
             </label>
-            <InputText id="username" type="text" className="h-8 w-40" />
+            <InputText id="username" type="text" className="h-8 w-40" onChange={(event) => setUserInfo({...userInfo,user_name: event.target.value})}/>
           </div>
           <div className="flex flex-wrap justify-content-center align-items-center gap-2">
             <label htmlFor="password" className="w-6rem">
               Password
             </label>
-            <InputText id="password" type="password" className="h-8 w-40" />
+            <InputText id="password" type="password" className="h-8 w-40" onChange={(event) => setUserInfo({...userInfo,password: event.target.value})}/>
           </div>
           <div style={{height: '1rem'}}></div>
           <div className="flex flex-column justify-content-center align-items-center gap-3 mt-3">
