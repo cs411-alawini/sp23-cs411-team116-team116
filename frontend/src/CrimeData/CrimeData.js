@@ -17,6 +17,8 @@ function CrimeData(props) {
     // pass arguments to backend API here
     console.log(drNo, victAge, victSex, weaponUsedCd, weaponDesc, area, areaName, lat, lon);
   };
+  
+  
 
   return (
     <div className="CrimeData">
