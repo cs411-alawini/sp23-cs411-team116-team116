@@ -137,7 +137,7 @@ app.get("/api/queryhistory/get", (require, response) => {
 
 // Crime record CRUD page
 app.get("/api/crimedata/get", (require, response) => {
-    const sqlSelect = "SELECT * FROM `Victims`";
+    const sqlSelect = "SELECT * FROM `Victims` LIMIT 500";
     console.log("/api/crimedata/get");
     db.query(sqlSelect, (err, result) => {
         console.log(result);

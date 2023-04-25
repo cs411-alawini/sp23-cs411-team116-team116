@@ -7,7 +7,7 @@ function WeaponVictim(props) {
     const [victimByWeaponList, setvictimByWeaponList] = useState([]);
 
     const getWeaponVictimList = () => {
-        Axios.get(props.backendAddress + '/api/get/list2', { params: { _cache: Date.now() }})
+        Axios.get(props.backendAddress + '/api/weapon_victims_cnt/get', { params: { _cache: Date.now() }})
         .then((response) => {
             console.log('Sending request to backend server...');
             setvictimByWeaponList(response.data);
@@ -20,15 +20,19 @@ function WeaponVictim(props) {
 
     return (
     <div className="WeaponVictim">
-        <div className = "title">Victims Count by Weapon</div>
+        <h1>Victims Count by Weapon</h1>
         <div className = "card-container">
             {victimByWeaponList.map((val) => {
-            return (
-                <div className = "card">
-                <h1>Weapon: {val.Weapon}</h1>
-                <p>Victim Count: {val.Victim_Count}</p>
-                </div>
-            );
+                if (val.Weapon_Desc !== null) {
+                    return (
+                      <div className="card">
+                        <h2>{val.Weapon_Desc}</h2>
+                        <p>Victim Count: {val.Victim_Count}</p>
+                      </div>
+                    );
+                } else {
+                    return null;
+                }
             })}
         </div>
     </div>
