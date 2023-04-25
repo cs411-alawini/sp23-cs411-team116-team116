@@ -8,7 +8,6 @@ function QueryHistory(props) {
 
     return (
     <div className="QueryHistory">
-        <h1>Query History</h1>
         <div className=".card">
             <DataTable value={props.queryHistoryList} tableStyle={{ minWidth: '50rem' }}>
                 <Column field="Query_ID" header="Query ID"></Column>
