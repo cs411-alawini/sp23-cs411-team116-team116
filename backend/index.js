@@ -28,7 +28,7 @@ app.use(express.json());
 // send data by body
 app.post("/api/user/register", (require, response) => {
     const user_name = require.body.user_name;
-    const hashed_password = require.body.user_name;
+    const hashed_password = require.body.hashed_password;
     const sqlSelect = "SELECT * FROM User u WHERE u.User_Id = ?";
     const sqlInsert = "INSERT INTO `User` (`User_Id`, `Hashed_Password`) VALUES (?,?)";
     db.query(sqlSelect, [user_name], (err, result) => {
@@ -49,11 +49,11 @@ app.post("/api/user/register", (require, response) => {
     });
 });
 
-app.delete("/api/user/delete", (require, response) => {
+app.post("/api/user/delete", (require, response) => {
     const user_name = require.body.user_name;
-    const hashed_password = require.body.user_name;
+    const hashed_password = require.body.hashed_password;
     const sqlSelect = "SELECT * FROM User u WHERE u.User_Id = ?";
-    const sqlDelete = "DELETE FROM `User` WHERE u.User_Id = ?";
+    const sqlDelete = "DELETE FROM User u WHERE u.User_Id = ?";
     db.query(sqlSelect, [user_name], (err, result) => {
         if(err)
             console.log(err);
@@ -126,9 +126,9 @@ app.get("/api/weapon_victims_cnt/get", (require, response) => {
 });
 
 // Query table
-app.get("/api/queryhistory/get", (req, response) => {
+app.post("/api/queryhistory/get", (req, response) => {
     const user_name = req.body.user_name;
-    const hashed_password = req.body.user_name;
+    const hashed_password = req.body.hashed_password;
     const userSelect = "SELECT * FROM User u WHERE u.User_Id = ?";
     const historySelect = "SELECT * FROM `Query` WHERE User=?";
     db.query(userSelect, [user_name], (err, result) => {
@@ -136,18 +136,20 @@ app.get("/api/queryhistory/get", (req, response) => {
             console.log(err);
         console.log(result);
         if (result.length == 0) {
-            response.send({ message: "User not Exists", data: null });
+            console.log("User not Exists", result);
+            response.send({ message: "User not Exists", content: null });
         }
         else{
             if(hashed_password!=result[0].Hashed_Password){
-                response.send({ message: "Password Incorrect", data: null });
+                console.log("Password Incorrect", hashed_password, result[0].Hashed_Password);
+                response.send({ message: "Password Incorrect", content: null });
             }
             else{
                 db.query(historySelect, [user_name], (err, result1) => {
                     if(err)
                         console.log(err);
                     console.log(result1);
-                    response.send({ message: "Password Incorrect", data: result1 });
+                    response.send({ message: "Success", content: result1 });
                 });
             }
         }
