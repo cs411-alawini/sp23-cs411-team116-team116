@@ -2,7 +2,7 @@ html, body {
     margin: 0;
     padding: 0;
     height: 100%;
-  }
+}
 
 #root {
 height: 100%;
@@ -80,6 +80,9 @@ input {
 }
 
 .left-sidebar {
+    position: absolute;
+    margin: 0;
+    height: 100%;
     width: 250px; /* Adjust this value to set the fixed width of the menu */
     background-color: #f8f9fa;
     padding: 1rem;
@@ -89,8 +92,11 @@ input {
 }
 
 .main-content {
-flex-grow: 1;
-padding: 1rem;
+    position: absolute;
+    flex-grow: 1;
+    padding: 1rem;
+    margin-left: 250px;
+    margin-top: 0;
 }
 
 /* Styles for InputText */

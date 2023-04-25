@@ -1,63 +1,45 @@
-/* @import url('https://fonts.googleapis.com/css2?family=Abel&display=swap'); */
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap');
-h1{
-    font-size: 25px;
-    font-family: "Montserrat";
-    text-align: center;
-}
-.title{
+  h1 {
+    font-family: "Quicksand", sans-serif;
     font-size: 40px;
-    font-family: "Montserrat";
+    font-weight: bold;
+    margin-bottom: 40px;
     text-align: center;
-}
-.card-container {
+    color: #1f1d1d;
+  }
+  .card-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-}
-.card {
-    /* background-color: #fff; */
-    background-color: #fff7f8;
-    font-family: "Montserrat";
-    width: 300px;
-    height: 250px;
+  }
+  .card {
+    background-color: #f7f0f0;
+    width: 260px;
     padding: 30px;
-    padding-top: 50px;
     margin: 20px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     transition: transform 0.2s;
+    border: 2px solid #FDB7B3;
     align-items: center;
     text-align: center;
     word-wrap: break-word;
-}
-.card:hover {
-    transform: translateY(-10px);   
-}
-.card h2 {
+  }
+  .card:hover {
+    transform: translateY(-10px);
+  }
+  .card h2 {
     font-family: "Montserrat", sans-serif;
-    font-size: 30px;
+    font-size: 24px;
     font-weight: bold;
     margin-bottom: 20px;
     color: #202020;
     text-align: center;
-}
-.card p {
+  }
+  .card p {
     font-family: "Open Sans", sans-serif;
     font-size: 20px;
     margin-bottom: 0;
     text-align: center;
     color: #707070;
-}
-/* .card:nth-child(odd) {
-    background-color: #F0F0F0;  
-}
-.card:nth-child(odd):hover {
-    background-color: #F5F5F5;
-} */
-/* .card:nth-child(odd) h2 {
-    color: #404040;
-}
-.card:nth-child(odd) p {
-    color: #909090;
-} */
+  }
+  

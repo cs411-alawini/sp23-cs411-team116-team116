@@ -1,0 +1,36 @@
+.form{
+    margin-left: 250px;
+}
+h1{
+    margin-left: 250px;
+}
+input {
+    background-color: #f7f0f0;
+    width: 260px;
+    padding: 30px;
+    margin: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s;
+    border: 2px solid #FDB7B3;
+    align-items: center;
+    text-align: center;
+    word-wrap: break-word;
+  }
+label {
+    font-family: "Montserrat", sans-serif;
+    font-size: 16px;
+}
+.card {
+    background-color: #f7f0f0;
+    width: 260px;
+    padding: 30px;
+    margin: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s;
+    border: 2px solid #FDB7B3;
+    align-items: center;
+    text-align: center;
+    word-wrap: break-word;
+}

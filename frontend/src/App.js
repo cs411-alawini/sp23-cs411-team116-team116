@@ -16,8 +16,8 @@ import Axios from 'axios';
 
 
 function App() {
-  // const backendAddress = "http://localhost:3002"
-  const backendAddress = "https://premdhoot-friendly-space-garbanzo-wvj764v7r65hxgw-3002.preview.app.github.dev"
+  const backendAddress = "http://localhost:3002"
+  // const backendAddress = "https://premdhoot-friendly-space-garbanzo-wvj764v7r65hxgw-3002.preview.app.github.dev"
 
   // page status, 0 = MainPage, 1 = Victims by Areas, 2 = Victims by Weapons, 3 = Query History, 4 = Crime Data
   const [pageStatus, setPageStatus] = useState(0);
