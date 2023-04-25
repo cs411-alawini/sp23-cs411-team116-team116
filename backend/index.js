@@ -34,17 +34,17 @@ app.post("/api/user/register", (require, response) => {
     db.query(sqlSelect, [user_name], (err, result) => {
         if(err)
             console.log(err);
-        console.log(result);
         if (result.length > 0) {
-            response.send("User Exists");
+            console.log("User Exists", result);
+            response.send({message:"User Exists"});
         }
         else{
             db.query(sqlInsert, [user_name, hashed_password], (err, result) => {
                 if(err)
                     console.log(err);
-                console.log(result);
+                console.log("Regester Success", result);
+                response.send({message:"Regester Success"});
             });
-            response.send("Regester Success");
         }
     });
 });
@@ -57,21 +57,23 @@ app.delete("/api/user/delete", (require, response) => {
     db.query(sqlSelect, [user_name], (err, result) => {
         if(err)
             console.log(err);
-        console.log(result);
+        
         if (result.length == 0) {
-            response.send("User not Exists");
+            console.log("User not Exists",result);
+            response.send({message:"User not Exists"});
         }
         else{
             if(hashed_password!=result[0].Hashed_Password){
-                response.send("Password Incorrect");
+                console.log("Password Incorrect", result);
+                response.send({message:"Password Incorrect"});
             }
             else{
                 db.query(sqlDelete, [user_name], (err, result) => {
                     if(err)
                         console.log(err);
-                    console.log(result);
+                    console.log("Delete Success",result);
+                    response.send({message:"Delete Success"});
                 });
-                response.send("Delete Success");
             }
         }
     });
@@ -85,12 +87,12 @@ app.get("/api/mainpage/get", (req, response) => {
     const longitude = req.headers.lon;
     const radius = req.headers.radius;
     const callProcedure = 'CALL GetCrimeInfo(?, ?, ?, ?, @output_query_id)';
-    const sqlSelect =
+    const sqlSelect = 'SELECT * FROM `Query` WHERE Query_ID=@output_query_id';
     db.query(callProcedure, [user_name, latitude, longitude, radius], (err, result) => {
         if (err)
             console.log(err);
         console.log(result);
-        db.query('SELECT * FROM `Query` WHERE Query_ID=@output_query_id', (err, result1) => {
+        db.query(sqlSelect, (err, result1) => {
             if (err)
                 console.log(err);
             console.log(result1);
@@ -124,14 +126,31 @@ app.get("/api/weapon_victims_cnt/get", (require, response) => {
 });
 
 // Query table
-app.get("/api/queryhistory/get", (require, response) => {
-    const sqlSelect = "SELECT * FROM `Query`";
-    console.log("/api/queryhistory/get");
-    db.query(sqlSelect, (err, result) => {
-        console.log(result);
-        response.send(result);
+app.get("/api/queryhistory/get", (req, response) => {
+    const user_name = req.body.user_name;
+    const hashed_password = req.body.user_name;
+    const userSelect = "SELECT * FROM User u WHERE u.User_Id = ?";
+    const historySelect = "SELECT * FROM `Query` WHERE User=?";
+    db.query(userSelect, [user_name], (err, result) => {
         if(err)
             console.log(err);
+        console.log(result);
+        if (result.length == 0) {
+            response.send({ message: "User not Exists", data: null });
+        }
+        else{
+            if(hashed_password!=result[0].Hashed_Password){
+                response.send({ message: "Password Incorrect", data: null });
+            }
+            else{
+                db.query(historySelect, [user_name], (err, result1) => {
+                    if(err)
+                        console.log(err);
+                    console.log(result1);
+                    response.send({ message: "Password Incorrect", data: result1 });
+                });
+            }
+        }
     });
 });
 
