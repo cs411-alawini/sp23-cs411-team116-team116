@@ -11,6 +11,6 @@ export default function PageMenu() {
     ];
 
     return (
-        <Menu model={items} />
+        <Menu model={items} className="custom-menu" />
     )
 }

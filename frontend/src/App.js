@@ -11,7 +11,7 @@ import Axios from 'axios';
 
 function App() {
   // const backendAddress = "http://localhost:3002"
-  const backendAddress = "https://whhuang4-cautious-goggles-4499vqp7pwvfqr4x-3002.preview.app.github.dev"
+  const backendAddress = "https://premdhoot-friendly-space-garbanzo-wvj764v7r65hxgw-3002.preview.app.github.dev"
   // page status, 0 = MainPage, 1 = Victims by Areas, 2 = Victims by Weapons, 3 = Query History, 4 = Crime Data
   const [pageStatus, setPageStatus] = useState(0);
   const handleMenuItemClick = (newPageStatus) => {
@@ -44,14 +44,14 @@ function App() {
   }
   return (
     <div className="App">
-      <h1>Crimes Map</h1>
-      <div>
-        <Menu model={items} />
-        <div>
-          {Page}
+    <h1>Crimes Map</h1>
+    <div className="App-container">
+        <Menu model={items} className="App-menu" />
+        <div className="App-page">
+            {Page}
         </div>
-      </div>
     </div>
+    </div>  
   );
 }
 

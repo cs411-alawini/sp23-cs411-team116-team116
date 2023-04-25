@@ -1,4 +1,4 @@
-input {
+/* input {
     width: 300px;
     height: 60px;
     margin: 10px;
@@ -19,4 +19,42 @@ input {
     border:2px solid pink;
     border-radius: 15px;
     margin: 10px;
-}
+} */
+.App {
+    font-family: 'Helvetica Neue', sans-serif;
+  }
+  
+  h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  a {
+    color: #333;
+    text-decoration: none;
+  }
+  
+  a:hover {
+    color: #666;
+  }
+  
+  .Menu {
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+  }
+  
+  .MenuLink {
+    display: block;
+    padding: 0.5rem 1rem;
+    color: #333;
+  }
+  
+  .MenuLink:hover {
+    background-color: #eee;
+  }
+  
+  
+
+  
+
