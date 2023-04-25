@@ -3,7 +3,8 @@
     font-size: 40px;
     font-weight: bold;
     margin-bottom: 40px;
-    text-align: center;
+    /* text-align: center; */
+    /* padding-left: -10%; */
     color: #1f1d1d;
   }
   .card-container {
