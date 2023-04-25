@@ -52,6 +52,15 @@ function CrimeData(props) {
     refreshList();
   };
 
+  const deleteCrime = () => {
+    const baseUrl = props.backendAddress + '/api/crimedata/delete/:DR_NO'
+    Axios.delete(props.backendAddress + '/api/crimedata/delete/:DR_NO').then(() => {
+      alert('success delete')
+      
+    });
+    refreshList();
+  }
+
 
   return (
     <div className="CrimeData">
@@ -98,11 +107,14 @@ function CrimeData(props) {
               <p>DR NO: {val.DR_NO}</p>
               <p>Victim Age: {val.Vict_Age}</p>
               <p>Victim Sex: {val.Vict_Sex}</p>
-              {/* <button onClick={() => {deleteStatus(val.DR_NO)}}>DELETE</button> */}
-              {/* <input type="text" id="updateInput" onChange={(e) => {
+              <p>Weapon Code: {val.Weapon_Used_Cd}</p>
+              <p>Crime Code: {val.Crm_Cd}</p>
+              <p>Area: {val.AREA}</p>
+              <button onClick={() => {deleteCrime(val.DR_NO)}}>DELETE</button>
+              {/* <input type="text" id="updateCrime" onChange={(e) => {
                 setNewStatusDesc(e.target.value)
-              }} /> */}
-              {/* <button onClick={() => {
+              }} />
+              <button onClick={() => {
                 updateStatus(val.DR_NO)
               }}>UPDATE</button> */}
             </div>

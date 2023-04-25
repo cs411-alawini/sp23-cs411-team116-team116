@@ -1,5 +1,6 @@
 .form{
     margin-left: 250px;
+    size-adjust: unset;
 }
 h1{
     margin-left: 250px;
@@ -23,7 +24,8 @@ label {
 }
 .card {
     background-color: #f7f0f0;
-    width: 260px;
+    width: auto;
+    height: auto;
     padding: 30px;
     margin: 20px;
     border-radius: 10px;
