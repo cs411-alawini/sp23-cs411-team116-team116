@@ -39,3 +39,15 @@ label {
     text-align: center;
     word-wrap: break-word;
 }
+
+.input-grid {
+    margin-top: 0px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  
+  .input-grid .p-field {
+    flex: 1 0 calc(25% - 1rem);
+  }
+  

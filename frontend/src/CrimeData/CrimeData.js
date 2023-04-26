@@ -1,7 +1,11 @@
 import './CrimeData.css';
 import React, {useState, useEffect} from "react";
 import Axios from 'axios';
-
+import { DataTable } from 'primereact/datatable';
+import { Column } from 'primereact/column';
+import { InputText } from "primereact/inputtext";
+import { Fieldset } from "primereact/fieldset";
+        
 function CrimeData(props) {
   const [drNo, setDrNo] = React.useState(0);
   const [victAge, setVictAge] = React.useState(0);
@@ -14,31 +18,22 @@ function CrimeData(props) {
   const [lat, setLat] = React.useState(0);
   const [lon, setLon] = React.useState(0);
   const [crimeList, setCrimeList] = React.useState([]);
-  const [newCrimeCode, setNewCrimeCode] = React.useState(0);
 
   const refreshList = () => {
     console.log("start refresh")
     setTimeout(() => {
       Axios.get(props.backendAddress + '/api/crimedata/get').then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
         setCrimeList(response.data)
       });
     }, 500);
-    
     console.log("finish refresh")
   };
 
   useEffect(() => {
     refreshList();
-  });
-
-  const ReportNewCrime = () => {
-    // pass arguments to backend API here
-    console.log(drNo, victAge, victSex, weaponUsedCd, crmCode, area, lat, lon);
-  };
+  }, []);
   
-  
-
   const insertCrime = () => {
     Axios.post(props.backendAddress + '/api/crimedata/insert', {
       DR_NO: drNo,
@@ -53,13 +48,13 @@ function CrimeData(props) {
       alert('success insert')
     })
     refreshList();
+    
   };
 
   const deleteCrime = (DR_NO) => {
     const baseUrl = props.backendAddress + '/api/crimedata/delete/'
     Axios.delete(`${baseUrl}${DR_NO}`).then(() => {
       alert('success delete')
-      
     });
     refreshList();
   }
@@ -68,7 +63,7 @@ function CrimeData(props) {
     Axios.put(props.backendAddress + '/api/crimedata/update', {
       DR_NO: DR_NO,
       Vict_Age: victAge,
-      Crm_Cd: newCrimeCode,
+      Crm_Cd: crmCode,
       Vict_Sex: victSex,
       Weapon_Used_Cd: weaponUsedCd,
       AREA: area,
@@ -76,7 +71,6 @@ function CrimeData(props) {
       LON: lon
     }).then(() => {
       alert('success update')
-      setNewCrimeCode("");
     });
     refreshList();
   }
@@ -84,66 +78,127 @@ function CrimeData(props) {
 
   return (
     <div className="CrimeData">
-      <h1>Crime Data</h1>
-      <div className = 'form'>
-        <label>DR_NO:</label>
-        <input type="text" name="DR_NO" onChange={(e) => {
-          setDrNo(e.target.value)
-        }}/>
-        <label>Victim Age:</label>
-        <input type="text" name="Status_Desc" onChange={(e) => {
-          setVictAge(e.target.value)
-        }}/>
-        <label>Victim Sex:</label>
-        <input type="text" name="DR_NO" onChange={(e) => {
-          setVictSex(e.target.value)
-        }}/>
-        <label>Weapon Used Code:</label>
-        <input type="text" name="DR_NO" onChange={(e) => {
-          setWeaponUsedCd(e.target.value)
-        }}/>
-        <label>Crime Code:</label>
-        <input type="text" name="DR_NO" onChange={(e) => {
-          setcrmCod(e.target.value)
-        }}/>
-        <label>Area:</label>
-        <input type="text" name="DR_NO" onChange={(e) => {
-          setArea(e.target.value)
-        }}/>
-        <label>Latitude:</label>
-        <input type="text" name="DR_NO" onChange={(e) => {
-          setLat(e.target.value)
-        }}/>
-        <label>Longitude:</label>
-        <input type="text" name="DR_NO" onChange={(e) => {
-          setLon(e.target.value)
-        }}/>
-
+    <h1>Crime Data</h1>
+    <div className="form">
+      <Fieldset legend="Insert Crime Data">
+        <div className="input-grid">
+          <div className="p-field">
+            <label htmlFor="DR_NO">DR_NO:</label>
+            <InputText
+              id="DR_NO"
+              name="DR_NO"
+              onChange={(e) => {
+                setDrNo(e.target.value);
+              }}
+            />
+          </div>
+          <div className="p-field">
+            <label htmlFor="Status_Desc">Victim Age:</label>
+            <InputText
+              id="Status_Desc"
+              name="Status_Desc"
+              onChange={(e) => {
+                setVictAge(e.target.value);
+              }}
+            />
+          </div>
+          <div className="p-field">
+            <label htmlFor="Vict_Sex">Victim Sex:</label>
+            <InputText
+              id="Vict_Sex"
+              name="Vict_Sex"
+              onChange={(e) => {
+                setVictSex(e.target.value);
+              }}
+            />
+          </div>
+          <div className="p-field">
+            <label htmlFor="Weapon_Used_Cd">Weapon Used Code:</label>
+            <InputText
+              id="Weapon_Used_Cd"
+              name="Weapon_Used_Cd"
+              onChange={(e) => {
+                setWeaponUsedCd(e.target.value);
+              }}
+            />
+          </div>
+          <div className="p-field">
+            <label htmlFor="Crm_Cd">Crime Code:</label>
+            <InputText
+              id="Crm_Cd"
+              name="Crm_Cd"
+              onChange={(e) => {
+                setcrmCod(e.target.value);
+              }}
+            />
+          </div>
+          <div className="p-field">
+            <label htmlFor="Area">Area:</label>
+            <InputText
+              id="Area"
+              name="Area"
+              onChange={(e) => {
+                setArea(e.target.value);
+              }}
+            />
+          </div>
+          <div className="p-field">
+            <label htmlFor="Latitude">Latitude:</label>
+            <InputText
+              id="Latitude"
+              name="Latitude"
+              onChange={(e) => {
+                setLat(e.target.value);
+              }}
+            />
+          </div>
+          <div className="p-field">
+            <label htmlFor="Longitude">Longitude:</label>
+            <InputText
+              id="Longitude"
+              name="Longitude"
+              onChange={(e) => {
+                setLon(e.target.value);
+              }}
+            />
+          </div>
+        </div>
+        <div style={{ height: "0.5rem" }}></div>
         <button onClick={insertCrime}>INSERT</button>
-        <br/>
-        <div>{crimeList.map((val) => {
-          return (
-            <div className = "card">
-              <p>DR NO: {val.DR_NO}</p>
-              <p>Victim Age: {val.Vict_Age}</p>
-              <p>Victim Sex: {val.Vict_Sex}</p>
-              <p>Weapon Code: {val.Weapon_Used_Cd}</p>
-              <p>Crime Code: {val.Crm_Cd}</p>
-              <p>Area: {val.AREA}</p>
-              <b></b>
-              <button onClick={() => {deleteCrime(val.DR_NO)}}>DELETE</button>
-              <input className = "updateInput" type="text" id="updateCrime" onChange={(e) => {
-                setNewCrimeCode(e.target.value)
-              }} />
-              <button onClick={() => {
-                updateCrime(val.DR_NO)
-              }}>UPDATE</button>
-            </div>
-          );
-      })}</div>
-
-      </div>
+        <br />
+      </Fieldset>
     </div>
+    <DataTable
+      value={crimeList}
+      scrollable
+      scrollHeight="400px"
+      style={{ minWidth: "50rem" }}
+      paginator
+      paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+      rows={10}
+      rowsPerPageOptions={[10, 20, 50]}
+    >
+      <Column field="DR_NO" header="DR NO"></Column>
+      <Column field="Vict_Age" header="Victim Age"></Column>
+      <Column field="Vict_Sex" header="Victim Sex"></Column>
+      <Column field="Weapon_Used_Cd" header="Weapon Code"></Column>
+      <Column field="Crm_Cd" header="Crime Code"></Column>
+      <Column field="AREA" header="Area"></Column>
+      <Column field="LAT" header="Latitude"></Column>
+      <Column field="LON" header="Longtitude"></Column>
+      <Column
+        header="Actions"
+        body={(rowData) => (
+          <>
+            <button onClick={() => deleteCrime(rowData.DR_NO)}>DELETE</button>
+            <div style={{ height: "0.5rem" }}></div>
+            <button onClick={() => updateCrime(rowData.DR_NO)}>UPDATE</button>
+          </>
+        )}
+      ></Column>
+    </DataTable>
+  </div>
   );
 }
 
