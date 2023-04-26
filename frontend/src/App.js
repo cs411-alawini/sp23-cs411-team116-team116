@@ -17,8 +17,8 @@ import Axios from 'axios';
 
 function App() {
 
-  // const backendAddress = "http://localhost:3002"
-  const backendAddress = "https://premdhoot-musical-giggle-xrqw645j6g62ppp5-3002.preview.app.github.dev"
+  const backendAddress = "http://localhost:3002"
+  
 
 
   // page status, 0 = MainPage, 1 = Victims by Areas, 2 = Victims by Weapons, 3 = Query History, 4 = Crime Data
@@ -134,13 +134,13 @@ function App() {
             <label htmlFor="username" className="w-6rem">
               Username
             </label>
-            <InputText id="username" type="text" className="h-8 w-40" onChange={(event) => setUserInfo({...userInfo,user_name: event.target.value})}/>
+            <InputText id="username" type="text" className="h-8 w-40" onChange={(event) => setUserInfo({...userInfo, user_name: event.target.value})}/>
           </div>
           <div className="flex flex-wrap justify-content-center align-items-center gap-2">
             <label htmlFor="password" className="w-6rem">
               Password
             </label>
-            <InputText id="password" type="password" className="h-8 w-40" onChange={(event) => setUserInfo({...userInfo,password: event.target.value})}/>
+            <InputText id="password" type="password" className="h-8 w-40" onChange={(event) => setUserInfo({...userInfo, password: event.target.value})}/>
           </div>
           <div style={{height: '1rem'}}></div>
           <div className="flex flex-column justify-content-center align-items-center gap-3 mt-3">
