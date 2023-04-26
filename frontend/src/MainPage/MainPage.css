@@ -73,3 +73,30 @@
     gap: 2rem;
   }
   
+
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  gap: 1rem;
+}
+
+.crime-level-card {
+  color: #ffffff;
+}
+
+.card-bg-success {
+  background-color: #28a745;
+  color: #ffffff;
+}
+
+.card-bg-warning {
+  background-color: #ffc107;
+  color: #ffffff;
+}
+
+.card-bg-danger {
+  background-color: #dc3545;
+  color: #ffffff;
+}
+

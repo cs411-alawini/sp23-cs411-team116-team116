@@ -82,12 +82,13 @@ app.post("/api/user/delete", (require, response) => {
 // main page
 // send data by header
 app.get("/api/mainpage/get", (req, response) => {
-    const user_name = req.headers.user_name;
-    const latitude = req.headers.lat;
-    const longitude = req.headers.lon;
-    const radius = req.headers.radius;
+    const user_name = req.query.mp_user_name;
+    const latitude = req.query.lat;
+    const longitude = req.query.lon;
+    const radius = req.query.radius;
     const callProcedure = 'CALL GetCrimeInfo(?, ?, ?, ?, @output_query_id)';
     const sqlSelect = 'SELECT * FROM `Query` WHERE Query_ID=@output_query_id';
+    console.log("user_name",user_name)
     db.query(callProcedure, [user_name, latitude, longitude, radius], (err, result) => {
         if (err)
             console.log(err);
