@@ -13,5 +13,5 @@ http://34.134.149.255:3000/
 ### Database setup
 1. Download dataset from https://www.kaggle.com/datasets/susant4learning/crime-in-los-angeles-data-from-2020-to-present?sort=votes
 2. Uncompress and Rename as `CrimeData.csv`
-3. Run `python3 database_setup.py`
+3. Run `python3 scripts/database_setup.py`
 
