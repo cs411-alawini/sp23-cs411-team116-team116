@@ -8,7 +8,7 @@ http://34.134.149.255:3000/
 ### Frontend
 `npm start`
 ### Backend
-`npm run devStart`
+`npm start`
 
 ### Database setup
 1. Download dataset from https://www.kaggle.com/datasets/susant4learning/crime-in-los-angeles-data-from-2020-to-present?sort=votes
