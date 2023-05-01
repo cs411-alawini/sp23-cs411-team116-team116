@@ -15,3 +15,5 @@ http://34.134.149.255:3000/
 2. Uncompress and Rename as `CrimeData.csv`
 3. Run `python3 scripts/database_setup.py`
 
+### Demo Video
+https://drive.google.com/file/d/1968FcSu-GRB_388L9d8yu7jKW8uOO-8K/view?usp=sharing
