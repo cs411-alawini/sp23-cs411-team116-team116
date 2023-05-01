@@ -64,16 +64,16 @@ function CrimeData(props) {
     refreshList();
   }
 
-  const updateCrime = (DR_NO) => {
+  const updateCrime = (DR_NO, Vict_Age, Vict_Sex, Weapon_Used_Cd, AREA, LAT, LON) => {
     Axios.put(props.backendAddress + '/api/crimedata/update', {
       DR_NO: DR_NO,
-      Vict_Age: victAge,
+      Vict_Age: Vict_Age,
       Crm_Cd: newCrimeCode,
-      Vict_Sex: victSex,
-      Weapon_Used_Cd: weaponUsedCd,
-      AREA: area,
-      LAT: lat,
-      LON: lon
+      Vict_Sex: Vict_Sex,
+      Weapon_Used_Cd: Weapon_Used_Cd,
+      AREA: AREA,
+      LAT: LAT,
+      LON: LON
     }).then(() => {
       alert('success update')
       setNewCrimeCode("");
@@ -136,7 +136,7 @@ function CrimeData(props) {
                 setNewCrimeCode(e.target.value)
               }} />
               <button onClick={() => {
-                updateCrime(val.DR_NO)
+                updateCrime(val.DR_NO, val.Vict_Age, val.Vict_Sex, val.Weapon_Used_Cd, val.AREA, val.LAT, val.LON)
               }}>UPDATE</button>
             </div>
           );

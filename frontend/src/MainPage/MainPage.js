@@ -74,8 +74,8 @@ function MainPage(props) {
         <div className="SearchVictim">
           <div className="title">Search Victims by Location</div>
           <div className="flex flex-wrap justify-content-center align-items-center gap-2 horizontal-inputs">
-            <InputText id="latitude" name="latitude" placeholder='Enter Latitude'/>
-            <InputText id="longitude" name="longitude" placeholder='Enter Longitude'/>
+            <InputText id="latitude" name="latitude" placeholder='Enter Longitude'/>
+            <InputText id="longitude" name="longitude" placeholder='Enter Latitude'/>
             <InputText id="radius" name="radius" placeholder='Enter Radius'/>
             <button onClick={handleSearch}>Search</button>
           </div>
